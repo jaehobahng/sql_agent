@@ -31,5 +31,5 @@ for file_name in os.listdir(data_folder):
 # Confirm completion
 print("All CSV files have been processed and loaded into the database.")
 
-with open('data_loaded.flag', 'w') as flag_file:
-    flag_file.write('Data loading completed')
+# with open('data_loaded.flag', 'w') as flag_file:
+#     flag_file.write('Data loading completed')

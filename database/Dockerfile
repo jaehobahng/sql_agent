@@ -18,6 +18,6 @@ COPY . /app
 # Default command
 CMD ["python", "script.py"]
 
-# Healthcheck to confirm the data insertion has completed
-HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=5 \
-  CMD [ "/bin/sh", "-c", "[ -f /app/data_loaded.flag ] || exit 1" ]
+# # Healthcheck to confirm the data insertion has completed
+# HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=5 \
+#   CMD [ "/bin/sh", "-c", "[ -f /app/data_loaded.flag ] || exit 1" ]

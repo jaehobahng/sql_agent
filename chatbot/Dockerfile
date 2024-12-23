@@ -16,4 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Default command
-CMD ["python", "test.py"]
+# CMD ["python", "test.py"]
+CMD ["sh", "-c", "python test.py && tail -f /dev/null"]
