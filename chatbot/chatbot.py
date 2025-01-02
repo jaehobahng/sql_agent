@@ -8,10 +8,7 @@ import uuid
 USER_ICON = "./images/traveller.png"  # Replace with the path to your user icon
 ASSISTANT_ICON = "./images/guide.png"
 
-from lang_model import chatbot
-model = chatbot()
-thread_id = uuid.uuid4()
-config = {"configurable": {"thread_id": thread_id}}
+
 
 # Page Config
 st.set_page_config(layout="wide", page_title="Sequel Agent")
@@ -30,9 +27,29 @@ st.title("Sequel Agent")
 # Initialize session state
 if "messages" not in st.session_state:
     st.session_state["messages"] = [AIMessage(content="How can I help you?")]
+    thread_id = uuid.uuid4()  # Initialize only once
+    config = {"configurable": {"thread_id": thread_id}}
+    st.session_state['thread_id'] = config
 
 if "analysis" not in st.session_state:
     st.session_state["analysis"] = []
+
+def reset_conversation():
+    st.session_state["messages"] = [AIMessage(content="How can I help you?")]
+    st.session_state["analysis"] = []
+
+
+from lang_model import chatbot
+model = chatbot()
+
+
+if st.button("Reset Conversation"):
+    reset_conversation()
+    thread_id = uuid.uuid4()  # Initialize only once
+    config = {"configurable": {"thread_id": thread_id}}
+    st.session_state['thread_id'] = config
+
+
 
 # Layout
 col1, col2 = st.columns([1, 1])
@@ -64,12 +81,13 @@ if prompt := st.chat_input():
         message_placeholder = st.markdown("Loading your analysis...!")
         current_response = ""
         
-        messages = model.invoke({"messages": [("user", prompt)], "chat_history": []}, config=config)
+        messages = model.invoke({"messages": [("user", prompt)]}, config=st.session_state['thread_id'])
         print(messages)
-        
+        print(st.session_state['thread_id'])
 
         try:
-            response = messages["messages"][-1].tool_calls[0]["args"]["final_answer"]
+            response = messages["messages"][-1].content
+            print(response)
             query = []
 
             for i, item in enumerate(messages["messages"]):
