@@ -15,6 +15,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code
 COPY . /app
 
+
+# Expose Streamlit's default port
+EXPOSE 8501
+
+# Default command to run Streamlit app
+CMD ["streamlit", "run", "chatbot.py"]
+
 # Default command
 # CMD ["python", "test.py"]
-CMD ["sh", "-c", "python test.py && tail -f /dev/null"]
+# CMD ["sh", "-c", "python test.py && tail -f /dev/null"]
